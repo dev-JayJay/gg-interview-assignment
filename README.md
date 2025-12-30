@@ -1,3 +1,20 @@
+# Running the Project
+
+1. Clone the repository:
+   git clone https://github.com/dev-JayJay/gg-interview-assignment.git
+2. Install dependencies:
+   npm install
+   # or
+   yarn
+3. Start the dev server:
+   npm run dev
+   # or
+   yarn dev
+4. Open in the browser:
+   http://localhost:3000
+
+---
+
 # Admin Dashboard – Nested State Management
 
 ## Overview
@@ -27,11 +44,13 @@ All data is managed locally using mock data.
 
 The component tree mirrors the data hierarchy:
 
+```
 Page
 └── ProjectList
 └── ProjectItem
 └── TaskItem
 └── SubtaskItem
+```
 
 
 Each component has a single responsibility:
