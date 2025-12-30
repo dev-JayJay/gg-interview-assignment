@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Admin Dashboard – Nested State Management
+Overview
 
-## Getting Started
+A small admin dashboard built with Next.js (App Router) and TypeScript to manage nested data:
 
-First, run the development server:
+Projects → Tasks → Subtasks
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The focus is on component structure, nested state management, immutable updates, and cascading derived state — not visual polish.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+All data is managed locally using mock data.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Expand / collapse Projects and Tasks
 
-## Learn More
+Inline Subtask status updates
 
-To learn more about Next.js, take a look at the following resources:
+Cascading status updates (Subtask → Task → Project)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Basic CRUD:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Add / delete Tasks
 
-## Deploy on Vercel
+Add / delete Subtasks
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Component Architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The component tree mirrors the data hierarchy:
+
+Page
+ └── ProjectList
+     └── ProjectItem
+         └── TaskItem
+             └── SubtaskItem
+
+
+Each component has a single responsibility:
+
+Layout and hierarchy at higher levels
+
+Interaction and state changes delegated via dispatch
+
+State Management
+Why useReducer
+
+Nested data with cascading updates is managed via useReducer to ensure:
+
+Centralized update logic
+
+Explicit, predictable state transitions
+
+Easier reasoning about side effects
+
+State lives at the page level and updates flow downward via props.
+
+Reducer & Derived State
+
+All mutations are handled immutably in projectsReducer.
+
+Statuses are derived, not manually managed:
+
+todo → all children are todo
+
+done → all children are done
+
+in-progress → mixed states
+
+This avoids duplicated state and synchronization bugs.
+
+Mock Data
+
+Mock data is intentionally small but expressive:
+
+Multiple projects
+
+Mixed and completed task trees
+
+Edge cases (single subtask)
+
+Initial data is status-consistent to validate cascading behavior on first render.
+
+Styling
+
+Styling is intentionally minimal and utility-based:
+
+Clear hierarchy
+
+Readable layout
+
+Obvious interactions
+
+Visual polish and advanced UI concerns were intentionally deprioritized.
+
+Performance Notes
+
+Immutable updates are scoped to affected branches
+
+Component boundaries limit unnecessary re-renders
+
+No memoization added due to expected data size
+
+Trade-offs & Improvements
+
+With more time, I would add:
+
+Reducer unit tests
+
+Accessibility improvements
+
+State persistence (e.g. localStorage)
+
+Normalized state for larger datasets
